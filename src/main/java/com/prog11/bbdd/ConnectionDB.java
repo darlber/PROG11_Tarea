@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionDB {
     private Connection connect;
 
-    private void openConnection() throws SQLException {
+    void openConnection() throws SQLException {
         this.connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/concesionario", "root", "1234");
     }
 
