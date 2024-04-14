@@ -15,8 +15,8 @@ public class VehiculosDAO {
             PreparedStatement s = connect
                     .getConnection()
                     .prepareStatement(
-                            "INSERT INTO vehiculo "
-                                    + "VALUES (?,?,?,?,?,?)");
+                            "INSERT INTO vehiculo " +
+                                    "VALUES (?,?,?,?,?,?)");
             s.setString(1, mat_veh);
             s.setString(2, marca_veh);
             s.setInt(3, kms_veh);
@@ -29,6 +29,7 @@ public class VehiculosDAO {
             s.close();
             connect.closeConnection();
             return 0;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -51,6 +52,7 @@ public class VehiculosDAO {
             s.setString(2, mat_veh);
 
 
+
             int upd = s.executeUpdate();
             if (upd == 0) {
                 return -1;
@@ -58,6 +60,7 @@ public class VehiculosDAO {
 
             s.close();
             connect.closeConnection();
+
             return 0;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -73,12 +76,16 @@ public class VehiculosDAO {
             PreparedStatement s = connect
                     .getConnection()
                     .prepareStatement(
-                            "DELETE FROM vehiculo WHERE mat_veh = ? ");
+                            "DELETE FROM vehiculo " +
+                                    "WHERE mat_veh = ? ");
 
             s.setString(1, mat_veh);
 
 
             int del = s.executeUpdate();
+
+            /*executeUpdate devuelve un int con las filas afectadas,
+            por lo que, si no ha habido filas afectadas, devolverá el mismo valor que si ha habido un error*/
             if (del == 0) {
                 return -1;
             }
@@ -86,45 +93,17 @@ public class VehiculosDAO {
             s.close();
             connect.closeConnection();
             return 0;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return -1;
     }
 
-    public static ArrayList<String> recoverAll(ConnectionDB connect) {
-
-        try {
-            ArrayList<String> datos = new ArrayList<>();
-
-            connect.openConnection();
-
-            PreparedStatement s = connect
-                    .getConnection()
-                    .prepareStatement(
-                            "SELECT v.mat_veh, v.marca_veh, v.kms_veh, v.precio_veh, v.desc_veh, p.id_prop, p.nombre_prop, p.dni_prop "
-                                    + "FROM vehiculo v, propietario p "
-                                    + "WHERE v.id_prop = p.id_prop "
-                    );
-
-            ResultSet rs = s.executeQuery();
-
-            while (rs.next()) {
-                datos.add("Matricula: " + rs.getString("mat_veh") + ", marca: " + rs.getString("marca_veh") + ", km: " + rs.getInt("kms_veh") + ", precio " + rs.getInt("precio_veh") + ", Descripcion: " + rs.getString("desc_veh") + ", id propietario: " + rs.getInt("id_prop") + ", nombre propietario: " + rs.getString("nombre_prop") + ", dni propietario: " + rs.getString("dni_prop"));
-            }
-
-            connect.closeConnection();
-            return datos;
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return null;
-    }
-
     public static ArrayList<String> recoverAllBrand(ConnectionDB connect, String marca_veh) {
 
         try {
-            ArrayList<String> data = new ArrayList<>();
+            ArrayList<String> vehiculosMarca = new ArrayList<>();
 
             connect.openConnection();
 
@@ -141,40 +120,92 @@ public class VehiculosDAO {
             ResultSet rs = s.executeQuery();
 
             while (rs.next()) {
-                data.add("Matricula: " + rs.getString("mat_veh") + ", marca: " + rs.getString("marca_veh") + ", km: " + rs.getInt("kms_veh") + ", precio " + rs.getInt("precio_veh") + ", Descripcion: " + rs.getString("desc_veh") + ", id propietario: " + rs.getInt("id_prop") + ", nombre propietario: " + rs.getString("nombre_prop") + ", dni propietario: " + rs.getString("dni_prop"));
+                vehiculosMarca.add("Matricula: " + rs.getString("mat_veh")
+                        + ", marca: " + rs.getString("marca_veh")
+                        + ", km: " + rs.getInt("kms_veh")
+                        + ", precio " + rs.getInt("precio_veh")
+                        + ", Descripcion: " + rs.getString("desc_veh")
+                        + ", id propietario: " + rs.getInt("id_prop")
+                        + ", nombre propietario: " + rs.getString("nombre_prop")
+                        + ", dni propietario: " + rs.getString("dni_prop"));
             }
 
             connect.closeConnection();
-            return data;
+            return vehiculosMarca;
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return null;
     }
 
-    public static ArrayList<String> recoverVeh(ConnectionDB connect) {
+    public static ArrayList<String> recoverAll(ConnectionDB connect) {
 
         try {
-            ArrayList<String> data = new ArrayList<>();
+            ArrayList<String> vehiculo = new ArrayList<>();
 
             connect.openConnection();
 
             PreparedStatement s = connect
                     .getConnection()
                     .prepareStatement(
-                            "SELECT v.mat_veh, v.marca_veh, v.kms_veh, v.precio_veh, v.desc_veh, v.id_prop "
-                                    + "FROM vehiculo v "
+                            "SELECT * "
+                                    + "FROM vehiculo v, propietario p "
+                                    + "WHERE v.id_prop = p.id_prop "
+                    );
+
+            //executeQuery devuelve el objeto que hayamos seleccionado
+            ResultSet rs = s.executeQuery();
+
+            while (rs.next()) {
+                vehiculo.add("Matricula: " + rs.getString("mat_veh")
+                        + " |Marca: " + rs.getString("marca_veh")
+                        + " |KM: " + rs.getInt("kms_veh")
+                        + " |Precio " + rs.getInt("precio_veh")
+                        + " |Descripción: " + rs.getString("desc_veh")
+                        + " |ID-Propietario: " + rs.getInt("id_prop")
+                        + " |Nombre-Propietario: " + rs.getString("nombre_prop")
+                        + " |DNI-Propietario: " + rs.getString("dni_prop"));
+            }
+
+            connect.closeConnection();
+            return vehiculo;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+
+    public static ArrayList<String> allVeh(ConnectionDB connect) {
+
+        try {
+            ArrayList<String> allVeh = new ArrayList<>();
+
+            connect.openConnection();
+
+            PreparedStatement s = connect
+                    .getConnection()
+                    .prepareStatement(
+                            "SELECT * "
+                                    + "FROM vehiculo"
                     );
 
 
             ResultSet rs = s.executeQuery();
 
             while (rs.next()) {
-                data.add("Matricula: " + rs.getString("mat_veh") + ", marca: " + rs.getString("marca_veh") + ", km: " + rs.getInt("kms_veh") + ", precio " + rs.getInt("precio_veh") + ", Descripcion: " + rs.getString("desc_veh") + ", id propietario: " + rs.getInt("id_prop"));
+                allVeh.add("Matricula: " + rs.getString("mat_veh")
+                        + ", marca: " + rs.getString("marca_veh")
+                        + ", km: " + rs.getInt("kms_veh")
+                        + ", precio " + rs.getInt("precio_veh")
+                        + ", Descripcion: " + rs.getString("desc_veh")
+                        + ", id propietario: " + rs.getInt("id_prop"));
             }
 
             connect.closeConnection();
-            return data;
+            return allVeh;
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

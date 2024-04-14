@@ -16,41 +16,44 @@ public class Prog11_Principal {
         ArrayList<String> data;
         ConnectionDB connect = new ConnectionDB();
 
-        System.out.println("Insertar varios vehículos y propietarios.");
+        System.out.println("\tEjercicio 1 ");
+        System.out.println("{Insertar varios vehículos y propietarios}");
 
-        if (PropietariosDAO.insProp(connect, 6, "prop 1", "12345678A") == 0) {
-            System.out.println("Se ha insertado el propietario prop 1");
+        if (PropietariosDAO.insProp(connect, 6, "Propietario 1", "88888888C") == 0) {
+            System.out.println("Se ha insertado el propietario número 1");
         } else {
-            System.out.println("No se ha insertado el propietario prop 1");
+            System.out.println("Ha habido un error");
         }
 
-        if (PropietariosDAO.insProp(connect, 7, "prop 2", "12345678B") == 0) {
-            System.out.println("Se ha insertado el propietario prop 2");
+        if (PropietariosDAO.insProp(connect, 7, "Propietario 2", "99999999V") == 0) {
+            System.out.println("Se ha insertado el propietario número 2");
         } else {
-            System.out.println("No se ha insertado el propietario prop 2");
+            System.out.println("Ha habido un error");
         }
 
-        if (VehiculosDAO.insVeh(connect, "123ABC", "Seat", 70000, 7000, "Ibiza", 7) == 0) {
-            System.out.println("Se ha insertado el vehiculo con matricula 123ABC");
+        if (VehiculosDAO.insVeh(connect, "4444AAA", "Seat", 11111, 1111, "Ibiza", 7) == 0) {
+            System.out.println("Se ha insertado el vehículo número 1");
         } else {
-            System.out.println("No se ha insertado el vehiculo con matricula 123ABC");
+            System.out.println("Ha habido un error");
         }
 
-        if (VehiculosDAO.insVeh(connect, "123CBA", "Peugeout", 80000, 1000, "3008", 5) == 0) {
-            System.out.println("Se ha insertado el vehiculo con matricula 123CBA");
+        if (VehiculosDAO.insVeh(connect, "5555BBB", "Honda", 222222, 22222, "Honda", 5) == 0) {
+            System.out.println("Se ha insertado el vehículo número 2}");
         } else {
-            System.out.println("No ha insertado el vehiculo con matricula 123CBA");
+            System.out.println("Ha habido un error");
         }
 
-        System.out.println("Listar todos los vehículos.");
+        System.out.println("");
+        System.out.println("\tEjercicio 2");
+        System.out.println("{Listar todos los vehículos}");
 
         data = VehiculosDAO.recoverAll(connect);
 
         assert data != null;
-        for (String dato : data) {
-            System.out.println(dato);
-        }
 
+        for (String dato : data) {
+            System.out.println("{" + dato + "}");
+        }
         System.out.println("Actualizar propietario de un vehículo.");
 
         if (VehiculosDAO.updateVeh(connect, "2230FVD", 7) == 0) {
@@ -68,64 +71,7 @@ public class Prog11_Principal {
             System.out.println(dato);
         }
 
-        System.out.println("Eliminar un vehículo que exista.");
 
-        if (VehiculosDAO.delVeh(connect, "2230FVD") == 0) {
-            System.out.println("Se ha eliminado el vehiculo con matricula 2230FVD");
-        } else {
-            System.out.println("No se ha podido eliminar el vehiculo");
-        }
-
-        System.out.println("Eliminar un vehículo que no exista.");
-
-        if (VehiculosDAO.delVeh(connect, "1111AAA") == 0) {
-            System.out.println("Se ha eliminado el vehiculo con matricula 1111AAA");
-        } else {
-            System.out.println("No se ha podido eliminar el vehiculo");
-        }
-
-        System.out.println("Listar todos los vehículos.");
-
-        data = VehiculosDAO.recoverAll(connect);
-
-        assert data != null;
-        for (String dato : data) {
-            System.out.println(dato);
-        }
-
-        System.out.println("Listar los vehículos de una marca.");
-
-        data = VehiculosDAO.recoverAllBrand(connect, "Citroen");
-
-        assert data != null;
-        for (String dato : data) {
-            System.out.println(dato);
-        }
-
-        System.out.println("Listar todos los vehículos de un propietario.");
-
-        data = PropietariosDAO.getVeh(connect, "03475050X");
-
-        assert data != null;
-        for (String dato : data) {
-            System.out.println(dato);
-        }
-
-        System.out.println("Eliminar un propietario con vehículos.");
-
-        if (PropietariosDAO.delProp(connect, "03475050X") == 0) {
-            System.out.println("Se ha eliminado el propietario con el dni 03475050X");
-        } else {
-            System.out.println("No se ha eliminado el propietario con el dni 03475050X");
-        }
-
-        System.out.println("Eliminar un propietario sin vehículos.");
-
-        if (PropietariosDAO.delProp(connect, "123456789A") == 0) {
-            System.out.println("Se ha eliminado el propietario con el dni 123456789A");
-        } else {
-            System.out.println("No se ha eliminado el propietario con el dni 123456789A");
-        }
 
     }
 
