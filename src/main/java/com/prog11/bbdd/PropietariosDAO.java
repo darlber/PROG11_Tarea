@@ -14,8 +14,8 @@ public class PropietariosDAO {
 
             //preparedStatement para consultas preparadas con parametros
             PreparedStatement s = connect.getConnection()
-                    .prepareStatement("insert into propietario(id_prop, nombre_prop, dni_prop) "
-                            + "Values (?,?,?)");
+                    .prepareStatement("INSERT INTO propietario(id_prop, nombre_prop, dni_prop) "
+                            + "VALUES (?,?,?)");
 
             //a las variables ? les otorgaremos los valores que les pasemos
             s.setInt(1, id_prop);

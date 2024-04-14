@@ -113,7 +113,7 @@ public class VehiculosDAO {
                                     + "FROM vehiculo v, propietario p "
                                     + "WHERE v.id_prop = p.id_prop "
                                     + "AND v.marca_veh = ?"
-                                    + "ORDER BY v.marca_veh"
+                                    + "ORDER BY v.mat_veh"
                     );
 
             s.setString(1, marca_veh);
@@ -191,7 +191,8 @@ public class VehiculosDAO {
                     .getConnection()
                     .prepareStatement(
                             "SELECT * "
-                                    + "FROM vehiculo"
+                                    + "FROM vehiculo v"
+                                    + "ORDER BY v.mat_veh"
                     );
 
 
@@ -203,7 +204,6 @@ public class VehiculosDAO {
                         + " |KM: " + rs.getInt("kms_veh")
                         + " |Precio " + rs.getInt("precio_veh")
                         + " |Descripción: " + rs.getString("desc_veh")
-                        + " |ID-Propietario: " + rs.getInt("id_prop")
                 );
             }
 
