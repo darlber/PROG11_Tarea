@@ -14,12 +14,12 @@ public class ConnectionDB {
     }
 
     //cierra la conexion para liberar recursos
-    public void closeConnection() throws SQLException{
+    public void closeConnection() throws SQLException {
         this.connect.close();
     }
 
     //método de acceso que proporciona la conexión a la base de datos para su uso en otras partes del código.
-    public Connection getConnection(){
+    public Connection getConnection() {
         return this.connect;
     }
 

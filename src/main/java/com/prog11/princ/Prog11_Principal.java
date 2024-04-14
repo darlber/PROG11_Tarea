@@ -38,7 +38,7 @@ public class Prog11_Principal {
         }
 
         if (VehiculosDAO.insVeh(connect, "5555BBB", "Honda", 222222, 22222, "Honda", 5) == 0) {
-            System.out.println("Se ha insertado el vehículo número 2}");
+            System.out.println("Se ha insertado el vehículo número 2");
         } else {
             System.out.println("Ha habido un error");
         }
@@ -50,29 +50,102 @@ public class Prog11_Principal {
         data = VehiculosDAO.recoverAll(connect);
 
         assert data != null;
-
-        for (String dato : data) {
-            System.out.println("{" + dato + "}");
+        for (String d : data) {
+            System.out.println("{" + d + "}");
         }
-        System.out.println("Actualizar propietario de un vehículo.");
 
-        if (VehiculosDAO.updateVeh(connect, "2230FVD", 7) == 0) {
-            System.out.println("Vehiculo con matricula 2230FVD ha cambiado de propietario con id 7");
+        System.out.println("");
+        System.out.println("\tEjercicio 3");
+        System.out.println("{Actualizar propietario de un vehículo}");
+
+        if (VehiculosDAO.updateVeh(connect, "5555BBB", 3) == 0) {
+            System.out.println("Propietario con ID = 3 es ahora propietario del vehículo con matrícula 5555BBB");
         } else {
             System.out.println("No se ha podido cambiar el propietario");
         }
 
-        System.out.println("Listar todos los vehículos.");
+
+        System.out.println("");
+        System.out.println("\tEjercicio 4");
+        System.out.println("{Listar todos los vehículos}");
 
         data = VehiculosDAO.recoverAll(connect);
 
         assert data != null;
-        for (String dato : data) {
-            System.out.println(dato);
+        for (String d : data) {
+            System.out.println("{" + d + "}");
+        }
+        System.out.println("");
+        System.out.println("\tEjercicio 5");
+        System.out.println("{Eliminar un vehículo que exista}");
+
+        if (VehiculosDAO.delVeh(connect, "5555BBB") == 0) {
+            System.out.println("El vehículo cuya matrícula es 5555BBB, ha sido eliminado correctamente");
+        } else {
+            System.out.println("No se ha podido eliminar el vehículo");
+        }
+
+        System.out.println("");
+        System.out.println("\tEjercicio 6");
+        System.out.println("{Eliminar un vehículo que no exista}");
+
+        if (VehiculosDAO.delVeh(connect, "9999FVD") == 0) {
+            System.out.println("El vehículo cuya matrícula es 9999FVD, ha sido eliminado correctamente");
+        } else {
+            System.out.println("No se ha podido eliminar el vehículo");
+        }
+
+        System.out.println("");
+        System.out.println("\tEjercicio 7");
+        System.out.println("{Listar todos los vehículos}");
+
+        data = VehiculosDAO.recoverAll(connect);
+
+        assert data != null;
+        for (String d : data) {
+            System.out.println("{" + d + "}");
+        }
+
+        System.out.println("");
+        System.out.println("\tEjercicio 8");
+        System.out.println("{Listar todos los vehículos de una marca}");
+
+        data = VehiculosDAO.recoverAllBrand(connect, "Citroen");
+        assert data != null;
+        for (String d : data) {
+            System.out.println("{" + d + "}");
+        }
+
+        System.out.println("");
+        System.out.println("\tEjercicio 9");
+        System.out.println("{Listar todos los vehículos de un propietario}");
+
+        data = PropietariosDAO.getVeh(connect, "12312312X");
+        assert data != null;
+        for (String d : data) {
+            System.out.println("{" + d + "}");
         }
 
 
+        System.out.println("");
+        System.out.println("\tEjercicio 10");
+        System.out.println("{Eliminar un propietario con vehículos}");
+
+        if (PropietariosDAO.delProp(connect, "99999999V") != 0) {
+            System.out.println("El propietario con DNI 99999999V ha sido eliminado correctamente");
+        } else {
+            System.out.println("No se ha podido eliminar el propietario");
+        }
+
+        System.out.println("");
+        System.out.println("\tEjercicio 11");
+        System.out.println("{Eliminar un propietario sin vehículos}");
+
+        if (PropietariosDAO.delProp(connect, "88888888C") != 0) {
+            System.out.println("El propietario con DNI 88888888C ha sido eliminado correctamente");
+        } else {
+            System.out.println("No se ha podido eliminar el propietario");
+        }
 
     }
-
 }

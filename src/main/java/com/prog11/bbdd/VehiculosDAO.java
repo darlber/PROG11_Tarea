@@ -46,11 +46,10 @@ public class VehiculosDAO {
                     .getConnection()
                     .prepareStatement(
                             "UPDATE vehiculo "
-                                    + "SET id_prop = ?"
+                                    + "SET id_prop = ? "
                                     + "WHERE mat_veh = ? ");
             s.setInt(1, id_prop);
             s.setString(2, mat_veh);
-
 
 
             int upd = s.executeUpdate();
@@ -110,24 +109,26 @@ public class VehiculosDAO {
             PreparedStatement s = connect
                     .getConnection()
                     .prepareStatement(
-                            "SELECT v.mat_veh, v.marca_veh, v.kms_veh, v.precio_veh, v.desc_veh, p.id_prop, p.nombre_prop, p.dni_prop "
+                            "SELECT * "
                                     + "FROM vehiculo v, propietario p "
                                     + "WHERE v.id_prop = p.id_prop "
                                     + "AND v.marca_veh = ?"
+                                    + "ORDER BY v.marca_veh"
                     );
 
             s.setString(1, marca_veh);
             ResultSet rs = s.executeQuery();
 
             while (rs.next()) {
-                vehiculosMarca.add("Matricula: " + rs.getString("mat_veh")
-                        + ", marca: " + rs.getString("marca_veh")
-                        + ", km: " + rs.getInt("kms_veh")
-                        + ", precio " + rs.getInt("precio_veh")
-                        + ", Descripcion: " + rs.getString("desc_veh")
-                        + ", id propietario: " + rs.getInt("id_prop")
-                        + ", nombre propietario: " + rs.getString("nombre_prop")
-                        + ", dni propietario: " + rs.getString("dni_prop"));
+                vehiculosMarca.add("Marca: " + rs.getString("marca_veh")
+                        + " |Matricula: " + rs.getString("mat_veh")
+                        + " |KM: " + rs.getInt("kms_veh")
+                        + " |Precio " + rs.getInt("precio_veh")
+                        + " |Descripción: " + rs.getString("desc_veh")
+                        + " |ID-Propietario: " + rs.getInt("id_prop")
+                        + " |Nombre-Propietario: " + rs.getString("nombre_prop")
+                        + " |DNI-Propietario: " + rs.getString("dni_prop")
+                );
             }
 
             connect.closeConnection();
@@ -152,20 +153,22 @@ public class VehiculosDAO {
                             "SELECT * "
                                     + "FROM vehiculo v, propietario p "
                                     + "WHERE v.id_prop = p.id_prop "
+                                    + "ORDER BY v.mat_veh"
                     );
 
             //executeQuery devuelve el objeto que hayamos seleccionado
             ResultSet rs = s.executeQuery();
 
             while (rs.next()) {
-                vehiculo.add("Matricula: " + rs.getString("mat_veh")
-                        + " |Marca: " + rs.getString("marca_veh")
+                vehiculo.add("Matrícula: " + rs.getString("mat_veh")
+                        +" |Marca: " + rs.getString("marca_veh")
                         + " |KM: " + rs.getInt("kms_veh")
                         + " |Precio " + rs.getInt("precio_veh")
                         + " |Descripción: " + rs.getString("desc_veh")
                         + " |ID-Propietario: " + rs.getInt("id_prop")
                         + " |Nombre-Propietario: " + rs.getString("nombre_prop")
-                        + " |DNI-Propietario: " + rs.getString("dni_prop"));
+                        + " |DNI-Propietario: " + rs.getString("dni_prop")
+                );
             }
 
             connect.closeConnection();
@@ -195,12 +198,13 @@ public class VehiculosDAO {
             ResultSet rs = s.executeQuery();
 
             while (rs.next()) {
-                allVeh.add("Matricula: " + rs.getString("mat_veh")
-                        + ", marca: " + rs.getString("marca_veh")
-                        + ", km: " + rs.getInt("kms_veh")
-                        + ", precio " + rs.getInt("precio_veh")
-                        + ", Descripcion: " + rs.getString("desc_veh")
-                        + ", id propietario: " + rs.getInt("id_prop"));
+                allVeh.add("Matrícula: " + rs.getString("mat_veh")
+                        + " |Marca: " + rs.getString("marca_veh")
+                        + " |KM: " + rs.getInt("kms_veh")
+                        + " |Precio " + rs.getInt("precio_veh")
+                        + " |Descripción: " + rs.getString("desc_veh")
+                        + " |ID-Propietario: " + rs.getInt("id_prop")
+                );
             }
 
             connect.closeConnection();

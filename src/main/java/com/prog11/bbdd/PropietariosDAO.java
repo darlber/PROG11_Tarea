@@ -39,33 +39,37 @@ public class PropietariosDAO {
     }
 
     public static ArrayList<String> getVeh(ConnectionDB connect, String dni_prop) {
-        ArrayList<String> data = new ArrayList<>();
 
         try {
+            ArrayList<String> data = new ArrayList<>();
+
             connect.openConnection();
             PreparedStatement s = connect.getConnection()
-                    .prepareStatement("SELECT v_mat_veh, v.marca_veh, v.kms_veh, v.precio_veh, v.desc_veh,"
-                            + " p.ip_prop, p.nombre_prop, p.dni_prop "
+                    .prepareStatement("SELECT * "
                             + "FROM vehiculo v, propietario p "
-                            + "WHERE v.id_prop = p.ip_prop "
-                            + "AND p.dni_pro p= ?");
+                            + "WHERE v.id_prop = p.id_prop "
+                            + "AND p.dni_prop = ?");
+
+            s.setString(1, dni_prop);
 
             ResultSet rs = s.executeQuery();
 
             //bucle while, next devolvera true si el puntero consigue avanzar al siguiente registro
             while (rs.next()) {
-                data.add("Matricula: " + rs.getString("mat_veh")
-                        + ", marca: " + rs.getString("marca_veh")
-                        + ", km: " + rs.getInt("kms_veh")
-                        + ", precio " + rs.getInt("precio_veh")
-                        + ", Descripcion: " + rs.getString("desc_veh")
-                        + ", id propietario: " + rs.getInt("id_prop")
-                        + ", nombre propietario: " + rs.getString("nombre_prop")
-                        + ", dni propietario: " + rs.getString("dni_prop"));
+                data.add("ID-Propietario:" + rs.getInt("id_prop")
+                        + " |DNI-Propietario: " + rs.getString("dni_prop")
+                        + " |Nombre-Propietario: " + rs.getString("nombre_prop")
+                        + " |Matrícula: " + rs.getString("mat_veh")
+                        + " |Marca: " + rs.getString("marca_veh")
+                        + " |KM: " + rs.getInt("kms_veh")
+                        + " |Precio " + rs.getInt("precio_veh")
+                        + " |Descripción: " + rs.getString("desc_veh")
+
+                );
             }
 
             connect.closeConnection();
-
+            return data;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -89,6 +93,7 @@ public class PropietariosDAO {
 
             s.close();
             connect.closeConnection();
+
             //devuelve el numero int de los registros eliminados
             return del;
 
